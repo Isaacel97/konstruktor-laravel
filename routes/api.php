@@ -7,6 +7,7 @@ use App\Http\Controllers\AcabadosController;
 use App\Http\Controllers\CondicionesController;
 use App\Http\Controllers\ContizacionesController;
 use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,9 @@ Route::post('cotizacion/enviaCotizacion/', function(Request $request){
     return $resp;
 });
 
+//rutas usuarios clientes
+Route::post('user/create', function(Request $request) {
+    $controller = new UserController;
+    $resp = $controller->createUser($request);
+    return $resp;
+});
