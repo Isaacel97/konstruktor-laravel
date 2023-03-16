@@ -62,8 +62,8 @@ Route::post('cotizacion/enviaCotizacion/', function(Request $request){
 });
 
 //rutas usuarios clientes
-Route::post('user/create', function(Request $request) {
+Route::post('user/create/', function(Request $request) {
     $controller = new UserController;
-    $resp = $controller->createUser($request);
+    $resp = $controller->create($request);
     return $resp;
 });
