@@ -18,11 +18,14 @@ class User extends Model
     protected $table = 'users';
     protected $fillable = [
         'name',
+        'apellido',
         'email',
         'password',
         'role_id',
         'telefono',
     ];
+
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for serialization.

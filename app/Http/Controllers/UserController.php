@@ -25,26 +25,35 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-        
-        $validar = $request->validate([
+
+        $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'apellido' => 'required',
+            'email' => 'required|email',
             'password' => 'required|min:8',
             'role_id' => 'required|numeric',
             'telefono' => 'required|numeric|digits:10',
         ]);
         
+        try {
+            $user = new User();
+            $user->name = $data['name'];
+            $user->apellidos = $data['apellido'];
+            $user->email = $data['email'];
+            $user->password = md5($data['password']);
+            $user->role_id = $data['role_id'];
+            $user->telefono = $data['telefono'];
+            $user->save();
 
-        return response()->json([
-            $data,
-        ], 201);
-        // $user = new User();
-        // $user->name = $data['name'];
-        // $user->email = $data['email'];
-        // $user->password = $data['password'];
-        // $user->role_id = $data['role_id'];
-        // $user->telefono = $data['telefono'];
-        // $user->save();
+            return response()->json([
+                'message' => 'Usuario creado correctamente',
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error al crear el usuario',
+                'error' => $th->getMessage()
+            ], 500);
+        }
 
         // if ($user->save()) {
         //     return response()->json([
