@@ -77,3 +77,5 @@ Route::post('user/create/', function(Request $request) {
     $resp = $controller->create($request);
     return $resp;
 });
+
+Route::post('user/login/', [ UserController::class, 'login' ])->name('login');
