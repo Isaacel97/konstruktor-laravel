@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Areas;
+use App\Models\Condiciones;
+use App\Models\Cotizacion;
 use Illuminate\Http\Request;
 
-class ContizacionesController extends Controller
+class CotizacionesController extends Controller
 {
     public function calculoArea(Request $request)
     {
@@ -56,5 +58,40 @@ class ContizacionesController extends Controller
             return response($valores, 200);
         }
         return response($valores, 200);
+    }
+
+    public function show()
+    {
+        $cotizaciones = Cotizacion::with('status', 'condicion', 'acabado', 'user')->get();
+        try {
+            return response()->json($cotizaciones, 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error al obtener cotizaciones',
+                'error' => $th->getMessage()
+            ], 500);
+        }
+        
+    }
+
+    public function selectCotizacion($cotizacionId)
+    {
+        return response()->json(Cotizacion::find($cotizacionId), 200);
+    }
+
+    public function setStatus(Request $request)
+    {
+        $data = $request->all();
+        $cotizacion = Cotizacion::findOrFail($data['id']);
+        $cotizacion->status_id = $data['status_id'];
+        $cotizacion->save();
+        try {
+            return response()->json($cotizacion, 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error al actualizar cotizacion',
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
 }

@@ -11,10 +11,9 @@ class Cotizacion extends Model
     protected $table = 'cotizaciones';
 
     protected $fillable = [
+        'id_user',
         'fecha_cotizacion',
         'm2',
-        'condiciones',
-        'acabados',
         'recamaras',
         'baños',
         'cocheras',
@@ -26,7 +25,30 @@ class Cotizacion extends Model
         'portico',
         'otro',
         'total',
+        'status_id',
+        'id_acabados',
+        'id_condicion',
     ];
 
     public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+    
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
+
+    public function acabado()
+    {
+        return $this->belongsTo(Acabados::class, 'id_acabados');
+    }
+
+    public function condicion()
+    {
+        return $this->belongsTo(Condiciones::class, 'id_condicion');
+    }
 }

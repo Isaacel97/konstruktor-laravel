@@ -5,9 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactosController;
 use App\Http\Controllers\AcabadosController;
 use App\Http\Controllers\CondicionesController;
-use App\Http\Controllers\ContizacionesController;
+use App\Http\Controllers\CotizacionesController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\UserController;
+use App\HttP\Controllers\StatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,6 @@ use App\Http\Controllers\UserController;
 */
 
 //rutas data contactos
-
 Route::post('contacto', function(Request $request) {
     $resp = Contacto::create($request->all());
     return $resp;
@@ -50,7 +50,7 @@ Route::get('cotizacion/condicion/{condicion}', [CondicionesController::class, 's
 
 //rutas data cotizaciones
 Route::post('cotizacion/calculoArea/', function(Request $request) {
-    $controller = new ContizacionesController;
+    $controller = new CotizacionesController;
     $resp = $controller->calculoArea($request);
     return $resp;
 });
@@ -61,6 +61,16 @@ Route::post('cotizacion/enviaCotizacion/', function(Request $request){
     return $resp;
 });
 
+Route::get('cotizacion/listaCotizaciones/', [CotizacionesController::class, 'show']);
+
+//rutas data status
+Route::get('cotizacion/status/', [StatusController::class, 'show']);
+
+Route::post('cotizacion/setStatus/', function(Request $request) {
+    $controller = new CotizacionesController;
+    $resp = $controller->setStatus($request);
+    return $resp;
+});
 //rutas usuarios clientes
 Route::post('user/create/', function(Request $request) {
     $controller = new UserController;
