@@ -86,11 +86,16 @@ class CotizacionesController extends Controller
         $cotizacion->status_id = $data['status_id'];
         $cotizacion->save();
         try {
-            return response()->json($cotizacion, 200);
+            return response()->json([
+                'message' => 'Status de cliente actualizado correctamente',
+                'status' => true,
+                'res' => $cotizacion
+            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Error al actualizar cotizacion',
-                'error' => $th->getMessage()
+                'message' => 'Error al actualizar status de cliente',
+                'status' => false,
+                'res' => $th->getMessage()
             ], 500);
         }
     }
