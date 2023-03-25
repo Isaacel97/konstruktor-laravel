@@ -147,6 +147,7 @@ class UserController extends Controller
                 return response()->json([
                     'message' => 'Usuario logueado correctamente',
                     'user' => $user,
+                    'id' => $user->id,
                     'status' => 200,
                     'token' => hash('sha256', $plainTextToken = Str::random(40)),
                 ]);
