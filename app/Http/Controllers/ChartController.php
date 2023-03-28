@@ -12,4 +12,10 @@ class ChartController extends Controller
         $status = Cotizacion::select(DB::raw('count(*) as count,status.id, status.status'))->groupBy('status_id')->join('status', 'cotizaciones.status_id', '=', 'status.id')->get();
     return response()->json($status);
 }
+
+public function totalCotizaciones(){
+    //traer todas las cotizaciones del ano actual
+    $cotizaciones = Cotizacion::select(DB::raw('count(*) as count, MONTH(fecha_cotizacion) as month'))->whereYear('fecha_cotizacion', date('Y'))->groupBy('month')->get();
+       return response()->json($cotizaciones);
+}
 }

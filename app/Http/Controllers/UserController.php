@@ -9,21 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-        *
-        * @return \Illuminate\Http\Response
-     */
+   
     public function create(Request $request)
     {
         $data = $request->all();
@@ -68,63 +54,7 @@ class UserController extends Controller
             ]);
         }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
+    
     public function login (Request $request) { 
         //login auth
         $data = $request->all();
@@ -144,12 +74,16 @@ class UserController extends Controller
 
         if ($user) {
             if (Hash::check($data['password'], $user->password)) {
+                $token = hash('sha256', $plainTextToken = Str::random(40));
+                $user->token = $token;
+                $user->save();
+
                 return response()->json([
                     'message' => 'Usuario logueado correctamente',
                     'user' => $user,
                     'id' => $user->id,
                     'status' => 200,
-                    'token' => hash('sha256', $plainTextToken = Str::random(40)),
+                    'token' => $token
                 ]);
             } else {
                 return response()->json([
@@ -162,6 +96,35 @@ class UserController extends Controller
                 'message' => 'Usuario no encontrado',
                 'status' => 404 
             ], );
+        }
+    }
+    public function auth (Request $request) {
+        $data = $request->all();
+        //get token from header 
+        $token = $request->header('Authorization');
+        $token = str_replace('Bearer ', '', $token);
+        $user = User::where('token', $token)->first();
+        if ($user) {
+            if($user->role_id == 1){
+
+                return response()->json([
+                    'message' => 'Token valido',
+                    "type" => 1,
+                    'status' => 200
+                ]);
+            }
+                return response()->json([
+                    'message' => 'Token valido',
+                    "type" => 2,
+                    'status' => 200
+                ]);
+            
+        } else {
+            return response()->json([
+                'message' => 'Token invalido',
+                'status' => 401,
+                'token' => $token
+            ]);
         }
     }
 }

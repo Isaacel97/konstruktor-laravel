@@ -88,4 +88,9 @@ Route::post('user/create/', function(Request $request) {
 
 Route::post('user/login/', [ UserController::class, 'login' ])->name('login');
 
+
+//token
+Route::post('user/auth/', [ UserController::class, 'auth' ])->name('auth');
+//rutas graficas
 Route::get('chart/status', [ChartController::class, 'status']);
+Route::get('chart/totalCotizaciones', [ChartController::class, 'totalCotizaciones']);
