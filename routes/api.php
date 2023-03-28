@@ -55,6 +55,14 @@ Route::post('cotizacion/calculoArea/', function(Request $request) {
     return $resp;
 });
 
+//para inserta cotización
+Route::post('cotizacion/createCotizacion/', function(Request $request) {
+    $controller = new CotizacionesController;
+    $resp = $controller->createCotizacion($request);
+    return $resp;
+});
+
+//para mandar cotizacion por correo
 Route::post('cotizacion/enviaCotizacion/', function(Request $request){
     $controller = new SendEmailController;
     $resp = $controller->sendMail($request);
