@@ -130,12 +130,12 @@ class CotizacionesController extends Controller
                 $cotizacion->recamaras = $data['recamaras'];
                 $cotizacion->baños = $data['banos'];
                 $cotizacion->cocheras = $data['cocheras'];
-                $cotizacion->cuartos_servicio = 0;
-                $cotizacion->cuarto_lavado = 0;
-                $cotizacion->estudio = 0;
-                $cotizacion->sala_tv = 0;
-                $cotizacion->portico = 0;
-                $cotizacion->otro = 'NA';
+                $cotizacion->estudio = $data['estudio'];
+                $cotizacion->cuarto_lavado = $data['cuarto_lavado'];
+                $cotizacion->cuartos_servicio = $data['cuarto_servicio'];
+                $cotizacion->sala_tv = $data['sala_tv'];
+                $cotizacion->portico = $data['portico'];
+                $cotizacion->otro = $data["otro"];
                 //si es casa residencial se agrega el vestidor
                 if ($data['condicionId'] == 2) {
                     $cotizacion->vestidor = 1;
