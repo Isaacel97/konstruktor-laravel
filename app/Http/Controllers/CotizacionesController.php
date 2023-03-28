@@ -89,7 +89,6 @@ class CotizacionesController extends Controller
             return response()->json([
                 'message' => 'Status de cliente actualizado correctamente',
                 'estado' => true,
-                'res' => $cotizacion
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

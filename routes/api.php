@@ -9,7 +9,7 @@ use App\Http\Controllers\CotizacionesController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\UserController;
 use App\HttP\Controllers\StatusController;
-
+use App\Http\Controllers\ChartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -79,3 +79,5 @@ Route::post('user/create/', function(Request $request) {
 });
 
 Route::post('user/login/', [ UserController::class, 'login' ])->name('login');
+
+Route::get('chart/status', [ChartController::class, 'status']);
