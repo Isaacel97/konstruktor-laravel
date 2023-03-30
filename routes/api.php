@@ -8,7 +8,7 @@ use App\Http\Controllers\CondicionesController;
 use App\Http\Controllers\CotizacionesController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\UserController;
-use App\HttP\Controllers\StatusController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\ChartController;
 /*
 |--------------------------------------------------------------------------
@@ -40,57 +40,53 @@ Route::put('admin/contactos/{contacto}', function(Request $request, $contactoId)
 });
 
 //rutas data acabados
-Route::get('cotizacion/acabados/', [AcabadosController::class, 'show']);
+Route::get('cotizacion/acabados', [AcabadosController::class, 'show']);
 Route::get('cotizacion/acabados/{acabado}', [AcabadosController::class, 'selectAcabado']);
 Route::get('cotizacion/acabados/condicion/{condicion}', [AcabadosController::class, 'showByCondicion']);
 
 //rutas data condiciones
-Route::get('cotizacion/condicion/', [CondicionesController::class, 'show']);
+Route::get('cotizacion/condicion', [CondicionesController::class, 'show']);
 Route::get('cotizacion/condicion/{condicion}', [CondicionesController::class, 'selectCondicion']);
 
 //rutas data cotizaciones
-Route::post('cotizacion/calculoArea/', function(Request $request) {
+Route::post('cotizacion/calculoArea', function(Request $request) {
     $controller = new CotizacionesController;
     $resp = $controller->calculoArea($request);
     return $resp;
 });
 
 //para inserta cotización
-Route::post('cotizacion/createCotizacion/', function(Request $request) {
+Route::post('cotizacion/createCotizacion', function(Request $request) {
     $controller = new CotizacionesController;
     $resp = $controller->createCotizacion($request);
     return $resp;
 });
 
 //para mandar cotizacion por correo
-Route::post('cotizacion/enviaCotizacion/', function(Request $request){
+Route::post('cotizacion/enviaCotizacion', function(Request $request){
     $controller = new SendEmailController;
     $resp = $controller->sendMail($request);
     return $resp;
 });
 
-Route::get('cotizacion/listaCotizaciones/', [CotizacionesController::class, 'show']);
+Route::get('cotizacion/listaCotizaciones', [CotizacionesController::class, 'show']);
 
 //rutas data status
-Route::get('cotizacion/status/', [StatusController::class, 'show']);
+Route::get('cotizacion/status', [StatusController::class, 'show']);
 
-Route::post('cotizacion/setStatus/', function(Request $request) {
+Route::post('cotizacion/setStatus', function(Request $request) {
     $controller = new CotizacionesController;
     $resp = $controller->setStatus($request);
     return $resp;
 });
 //rutas usuarios clientes
-Route::post('user/create/', function(Request $request) {
-    $controller = new UserController;
-    $resp = $controller->create($request);
-    return $resp;
-});
+Route::post('user/create', [UserController::class, 'create']);
 
-Route::post('user/login/', [ UserController::class, 'login' ])->name('login');
 
+Route::post('user/login', [ UserController::class, 'login' ])->name('login');
 
 //token
-Route::post('user/auth/', [ UserController::class, 'auth' ])->name('auth');
+Route::post('user/auth', [ UserController::class, 'auth' ])->name('auth');
 //rutas graficas
 Route::get('chart/status', [ChartController::class, 'status']);
 Route::get('chart/totalCotizaciones', [ChartController::class, 'totalCotizaciones']);
